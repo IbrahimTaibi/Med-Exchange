@@ -29,7 +29,26 @@ exports.getMedications = async (req, res) => {
       let sortBy = req.query.sort.split(",").join(" ");
       // console.log(sortBy);
       query = query.sort(sortBy);
+    } else {
+      query = query.sort("createdAt");
     }
+
+    // Filering Fields
+    if (req.query.fields) {
+      let fields = req.query.fields.split(",").join(" ");
+      query = query.select(fields - "strength");
+    } else {
+      query = query.select("-__v");
+    }
+
+    // Pagination
+
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 10;
+    const skip = (page - 1) * limit;
+
+    query = query.skip(skip).limit(limit);
+
     const medications = await query; // i must not forget the await ...
     //Send Result
     res.status(200).json({
