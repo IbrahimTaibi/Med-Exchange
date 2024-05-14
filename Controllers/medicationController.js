@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 const Medication = require("../Models/medicationModel");
 
+// Middleware for highest strength
+exports.HighestStrength = (req, res, next) => {
+  (req.query.limit = "5"), (req.query.sort = "-strength");
+  next();
+};
+
 // Get All medications
 exports.getMedications = async (req, res) => {
   try {
@@ -55,7 +61,6 @@ exports.getMedications = async (req, res) => {
         throw new Error("Page not found");
       }
     }
-
     const medications = await query; // i must not forget the await ...
     //Send Result
 
