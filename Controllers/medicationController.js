@@ -7,14 +7,13 @@ exports.getMedications = async (req, res) => {
     /* Excluding these fields from the req.query 
     without modifying the req.query itself -----
     a middleware in some way */
-
+    // FILTRING
     const excludedArray = ["sort", "page", "limit", "fields"];
     const shallowCopy = { ...req.query };
     excludedArray.forEach((el) => {
       delete shallowCopy[el];
     });
     // console.log(shallowCopy);
-
     let queryStr = JSON.stringify(shallowCopy);
     // console.log(queryStr);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => {
@@ -23,16 +22,14 @@ exports.getMedications = async (req, res) => {
     // console.log(queryStr);
     const queryObj = JSON.parse(queryStr);
     // console.log(queryObj);
-
-    // Sorting the data using the original query in the request
+    // Sorting the data using the original query in the request --
+    // SORTING
     let query = Medication.find(queryObj);
     if (req.query.sort) {
       let sortBy = req.query.sort.split(",").join(" ");
       // console.log(sortBy);
-
       query = query.sort(sortBy);
     }
-
     const medications = await query; // i must not forget the await ...
     //Send Result
     res.status(200).json({
