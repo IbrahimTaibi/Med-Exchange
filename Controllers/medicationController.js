@@ -17,10 +17,11 @@ exports.getMedications = async (req, res) => {
       .filter()
       .sort()
       .fields()
-      .pagination();
+      .paginate();
 
     const medications = await Features.query; // i must not forget the await ...
     //Send Result
+
     res.status(200).json({
       status: "success",
       count: medications.length,
@@ -104,6 +105,53 @@ exports.deleteMedication = async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+// Testing Aggregation
+exports.medicationsStats = async (req, res) => {
+  try {
+    const stats = await Medication.aggregate([
+      { $match: { strength: { $gte: 500 } } },
+      {
+        $group: {
+          _id: "$indication",
+          averageQuantity: { $avg: "$quantity" },
+          maxQuantity: { $max: "$quantity" },
+        },
+      },
+    ]);
+    res.status(200).json({
+      status: "succes",
+      length: stats.length,
+      stats,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.medicationByIndication = async (req, res) => {
+  try {
+    const indication = req.params.indication;
+    const medications = await Medication.aggregate([
+      { $unwind: "$indication" },
+    ]);
+    let filteredMedication = medications.filter((el) => {
+      return el.indication === indication;
+    });
+    res.status(200).json({
+      status: "succes",
+      length: filteredMedication.length,
+      filteredMedication,
+    });
+  } catch (err) {
+    res.status(404).json({
       status: "fail",
       message: err.message,
     });

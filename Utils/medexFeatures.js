@@ -30,7 +30,7 @@ class MedexFeatures {
       this.query = this.query.sort(sortBy);
       return this;
     } else {
-      this.query = query.sort("createdAt");
+      this.query = this.query.sort("createdAt");
       return this;
     }
   }
@@ -45,9 +45,9 @@ class MedexFeatures {
       return this;
     }
   }
-  pagination() {
+  paginate() {
     const page = this.queryStr.page * 1 || 1;
-    const limit = this.queryStr.limit * 1 || 10;
+    const limit = this.queryStr.limit * 1 || 50;
     const skip = (page - 1) * limit;
     this.query = this.query.skip(skip).limit(limit);
     // const medicationCount = async (axx) => {

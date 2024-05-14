@@ -3,6 +3,12 @@ const medicationController = require("../Controllers/medicationController");
 const router = express.Router();
 
 router
+  .route("/medication-by-indication/:indication")
+  .get(medicationController.medicationByIndication);
+
+router.route("/medication-stats").get(medicationController.medicationsStats);
+
+router
   .route("/highest-strength")
   .get(
     medicationController.HighestStrength,
