@@ -10,9 +10,6 @@ exports.HighestStrength = (req, res, next) => {
 // Get All medications
 exports.getMedications = async (req, res) => {
   try {
-    /* Excluding these fields from the req.query 
-    without modifying the req.query itself -----
-    a middleware in some way */
     const Features = new MedexFeatures(Medication.find(), req.query)
       .filter()
       .sort()

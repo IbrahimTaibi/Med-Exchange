@@ -1,5 +1,5 @@
 class MedexFeatures {
-  constructor(query, queryStr, count) {
+  constructor(query, queryStr) {
     this.query = query;
     this.queryStr = queryStr;
   }
