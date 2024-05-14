@@ -2,7 +2,6 @@ class MedexFeatures {
   constructor(query, queryStr, count) {
     this.query = query;
     this.queryStr = queryStr;
-    this.counter = count;
   }
   filter() {
     const excludedArray = ["sort", "page", "limit", "fields"];

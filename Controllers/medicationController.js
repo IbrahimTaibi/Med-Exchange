@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Medication = require("../Models/medicationModel");
 const MedexFeatures = require("./../Utils/medexFeatures");
 
@@ -14,70 +13,14 @@ exports.getMedications = async (req, res) => {
     /* Excluding these fields from the req.query 
     without modifying the req.query itself -----
     a middleware in some way */
-    // FILTRING
-    const Features = new MedexFeatures(
-      Medication.find(),
-      req.query,
-      Medication.countDocuments(),
-    )
+    const Features = new MedexFeatures(Medication.find(), req.query)
       .filter()
       .sort()
       .fields()
       .pagination();
 
-    // const excludedArray = ["sort", "page", "limit", "fields"];
-    // const shallowCopy = { ...req.query };
-    // excludedArray.forEach((el) => {
-    //   delete shallowCopy[el];
-    // });
-    // // console.log(shallowCopy);
-    // let queryStr = JSON.stringify(shallowCopy);
-    // // console.log(queryStr);
-    // queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => {
-    //   return `$${match}`;
-    // });
-    // // console.log(queryStr);
-    // const queryObj = JSON.parse(queryStr);
-    // // console.log(queryObj);
-    // // Sorting the data using the original query in the request --
-
-    // let query = Medication.find(queryObj);
-
-    // SORTING
-
-    // if (req.query.sort) {
-    //   let sortBy = req.query.sort.split(",").join(" ");
-    //   // console.log(sortBy);
-    //   query = query.sort(sortBy);
-    // } else {
-    //   query = query.sort("createdAt");
-    // }
-
-    // // Filering Fields
-    // if (req.query.fields) {
-    //   let fields = req.query.fields.split(",").join(" ");
-    //   query = query.select(fields - "strength");
-    // } else {
-    //   query = query.select("-__v");
-    // }
-
-    // // Pagination
-
-    // const page = req.query.page * 1 || 1;
-    // const limit = req.query.limit * 1 || 10;
-    // const skip = (page - 1) * limit;
-
-    // query = query.skip(skip).limit(limit);
-
-    // if (req.query.page) {
-    //   const medicationCount = await Medication.countDocuments();
-    //   if (medicationCount <= skip) {
-    //     throw new Error("Page not found");
-    //   }
-    // }
     const medications = await Features.query; // i must not forget the await ...
     //Send Result
-
     res.status(200).json({
       status: "success",
       count: medications.length,
