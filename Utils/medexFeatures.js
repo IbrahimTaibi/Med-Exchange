@@ -30,7 +30,7 @@ class MedexFeatures {
       this.query = this.query.sort(sortBy);
       return this;
     } else {
-      this.query = this.query.sort("createdAt");
+      this.query = this.query.sort("-createdAt");
       return this;
     }
   }
