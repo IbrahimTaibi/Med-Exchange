@@ -141,14 +141,25 @@ exports.medicationByIndication = async (req, res) => {
     const indication = req.params.indication;
     const medications = await Medication.aggregate([
       { $unwind: "$indication" },
+      {
+        $group: {
+          _id: "$indication",
+          medicationCount: { $sum: 1 },
+          medications: { $push: "$name" },
+        },
+      },
+      { $addFields: { indication: "$_id" } },
+      { $project: { _id: 0 } },
+      { $match: { indication: indication } },
     ]);
-    let filteredMedication = medications.filter((el) => {
-      return el.indication === indication;
-    });
+
+    // let filteredMedication = medications.filter((el) => {
+    //   return el.indication === indication;
+    // });
     res.status(200).json({
       status: "succes",
-      length: filteredMedication.length,
-      filteredMedication,
+      length: medications.length,
+      medications,
     });
   } catch (err) {
     res.status(404).json({
