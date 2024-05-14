@@ -24,7 +24,16 @@ exports.getMedications = async (req, res) => {
     const queryObj = JSON.parse(queryStr);
     // console.log(queryObj);
 
-    const medications = await Medication.find(queryObj); // i must not forget the await ...
+    // Sorting the data using the original query in the request
+    let query = Medication.find(queryObj);
+    if (req.query.sort) {
+      let sortBy = req.query.sort.split(",").join(" ");
+      // console.log(sortBy);
+
+      query = query.sort(sortBy);
+    }
+
+    const medications = await query; // i must not forget the await ...
     //Send Result
     res.status(200).json({
       status: "success",
