@@ -15,8 +15,16 @@ exports.getMedications = async (req, res) => {
     without modifying the req.query itself -----
     a middleware in some way */
     // FILTRING
-    const Features = new MedexFeatures(Medication.find(), req.query);
-    let query = Features.filter();
+    const Features = new MedexFeatures(
+      Medication.find(),
+      req.query,
+      Medication.countDocuments(),
+    )
+      .filter()
+      .sort()
+      .fields()
+      .pagination();
+
     // const excludedArray = ["sort", "page", "limit", "fields"];
     // const shallowCopy = { ...req.query };
     // excludedArray.forEach((el) => {
@@ -67,7 +75,7 @@ exports.getMedications = async (req, res) => {
     //     throw new Error("Page not found");
     //   }
     // }
-    const medications = await query.query; // i must not forget the await ...
+    const medications = await Features.query; // i must not forget the await ...
     //Send Result
 
     res.status(200).json({
