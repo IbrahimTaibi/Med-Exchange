@@ -49,8 +49,16 @@ exports.getMedications = async (req, res) => {
 
     query = query.skip(skip).limit(limit);
 
+    if (req.query.page) {
+      const medicationCount = await Medication.countDocuments();
+      if (medicationCount <= skip) {
+        throw new Error("Page not found");
+      }
+    }
+
     const medications = await query; // i must not forget the await ...
     //Send Result
+
     res.status(200).json({
       status: "success",
       count: medications.length,
