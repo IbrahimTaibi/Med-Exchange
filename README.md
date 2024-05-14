@@ -38,10 +38,15 @@ Start the server.
 npm start
 Access the API endpoints using tools like Postman or integrate them into your frontend application.
 API Endpoints
+
 GET /api/v2/medicament
+
 POST /api/v2/medicament
+
 PATCH /api/v2/medicament/:id
+
 DELETE /api/v2/medicament/:id
+
 
 Contribution
 Contributions are welcome! Please fork the repository and submit pull requests.
