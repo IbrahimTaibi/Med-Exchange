@@ -4,7 +4,27 @@ const Medication = require("../Models/medicationModel");
 // Get All medications
 exports.getMedications = async (req, res) => {
   try {
-    const medications = await Medication.find(); // i must not forget the await ...
+    /* Excluding these fields from the req.query 
+    without modifying the req.query itself -----
+    a middleware in some way */
+
+    const excludedArray = ["sort", "page", "limit", "fields"];
+    const shallowCopy = { ...req.query };
+    excludedArray.forEach((el) => {
+      delete shallowCopy[el];
+    });
+    // console.log(shallowCopy);
+
+    let queryStr = JSON.stringify(shallowCopy);
+    // console.log(queryStr);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => {
+      return `$${match}`;
+    });
+    // console.log(queryStr);
+    const queryObj = JSON.parse(queryStr);
+    // console.log(queryObj);
+
+    const medications = await Medication.find(queryObj); // i must not forget the await ...
     //Send Result
     res.status(200).json({
       status: "success",
