@@ -85,7 +85,7 @@ exports.getMedications = async (req, res) => {
     });
     //Catch Error
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.status(404).json({
       status: "fail",
       message: err.message,

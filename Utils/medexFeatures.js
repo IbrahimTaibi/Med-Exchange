@@ -39,7 +39,7 @@ class MedexFeatures {
     if (this.queryStr.fields) {
       let fields = this.queryStr.fields.split(",").join(" ");
       this.query = this.query.select(fields);
-      console.log(this);
+      // console.log(this);
       return this;
     } else {
       this.query = this.query.select("-__v");
@@ -51,18 +51,18 @@ class MedexFeatures {
     const limit = this.queryStr.limit * 1 || 10;
     const skip = (page - 1) * limit;
     this.query = this.query.skip(skip).limit(limit);
-    const medicationCount = async (axx) => {
-      return await axx;
-    };
-    const counting = medicationCount(this.counter);
-    counting.then((count) => {
-      if (this.queryStr.page) {
-        console.log(count);
-        if (count <= skip) {
-          throw new Error("Page not found");
-        }
-      }
-    });
+    // const medicationCount = async (axx) => {
+    //   return await axx;
+    // };
+    // const counting = medicationCount(this.counter);
+    // counting.then((count) => {
+    //   if (this.queryStr.page) {
+    //     console.log(count);
+    //     if (count <= skip) {
+    //       throw new Error("Page not found");
+    //     }
+    //   }
+    // })  ;
     return this;
   }
 }
