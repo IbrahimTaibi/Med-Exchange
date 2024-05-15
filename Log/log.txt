@@ -1,3 +1,7 @@
-A new medication with the name inflamyl fort has been created by Ibrahim Taibi
-A new medication with the name inflamyl fort has been created by Ibrahim Taibi
-A new medication with the name inflamyl has been created by Ibrahim Taibi
+Creation : A new medication with the name relaxacil has been created by Ibrahim Taibi
+Search : A new search operation has took 68 ms
+ Search : A new search operation has took 74 ms
+ Search : A new search operation has took 93 ms
+ Search : A new search operation has took 78 ms
+ Search : A new search operation has took 81 ms
+ 

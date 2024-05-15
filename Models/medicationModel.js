@@ -55,10 +55,30 @@ medicationSchema.pre("save", function (next) {
   next();
 });
 
+// Dont show expired medicaments
+
+medicationSchema.pre(/^find/, function (next) {
+  this.find({ expired: false });
+  this.startTime = new Date();
+  next();
+});
+
 // mongoose middleware "Post"
 
+medicationSchema.post(/^find/, function (docs, next) {
+  this.find({ expired: false });
+  this.endTime = new Date();
+  let content = `Search : A new search operation has took ${
+    this.endTime - this.startTime
+  } ms\n `;
+  fs.writeFile("./Log/log.txt", content, { flag: "a" }, (e) => {
+    console.log(e);
+  });
+  next();
+});
+
 medicationSchema.post("save", function (doc, next) {
-  let content = `A new medication with the name ${doc.name} has been created by ${doc.createdBy}\n`;
+  let content = `Creation : A new medication with the name ${doc.name} has been created by ${doc.createdBy}\n`;
   fs.writeFile("./Log/log.txt", content, { flag: "a" }, (e) => {
     console.log(e);
   });
