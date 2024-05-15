@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const fs = require("fs");
+
 const medicationSchema = new mongoose.Schema(
   {
     name: {
@@ -36,16 +38,30 @@ const medicationSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    createdBy: {
+      type: String,
+    },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
-// mongoose middleware
+// mongoose middleware "Pre"
 medicationSchema.pre("save", function (next) {
   const today = new Date();
   if (this.expiryDate <= today) {
     this.expired = true;
   } else this.expired = false;
+  this.createdBy = "Ibrahim Taibi";
+  next();
+});
+
+// mongoose middleware "Post"
+
+medicationSchema.post("save", function (doc, next) {
+  let content = `A new medication with the name ${doc.name} has been created by ${doc.createdBy}\n`;
+  fs.writeFile("./Log/log.txt", content, { flag: "a" }, (e) => {
+    console.log(e);
+  });
   next();
 });
 
