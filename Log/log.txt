@@ -23,4 +23,6 @@ Search : A new search operation has took 68 ms
  Search : A new search operation has took 95 ms
  Search : A new search operation has took 79 ms
  Search : A new search operation has took 98 ms
+ Search : A new search operation has took 82 ms
+ Search : A new search operation has took 78 ms
  

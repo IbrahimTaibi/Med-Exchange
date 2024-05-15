@@ -1,6 +1,6 @@
 const express = require("express");
 const medicationRouter = require("./Routes/medicationRoutes");
-const errorController = require("./Controllers/errorController");
+const globalErrorHandler = require("./Controllers/errorController");
 const medicationController = require("./Controllers/medicationController");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
@@ -18,6 +18,6 @@ app.use("/api/v2/medication", medicationRouter);
 // Page not Found (wrong url)
 app.all("*", medicationController.pageNotFound);
 
-app.use(errorController.errorMiddleware);
+app.use(globalErrorHandler);
 
 module.exports = app;
