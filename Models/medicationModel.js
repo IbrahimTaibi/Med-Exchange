@@ -63,6 +63,11 @@ medicationSchema.pre(/^find/, function (next) {
   next();
 });
 
+medicationSchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { expired: false } });
+  next();
+});
+
 // mongoose middleware "Post"
 
 medicationSchema.post(/^find/, function (docs, next) {

@@ -50,8 +50,8 @@ class MedexFeatures {
     const limit = this.queryStr.limit * 1 || 50;
     const skip = (page - 1) * limit;
     this.query = this.query.skip(skip).limit(limit);
-    // const medicationCount = async (axx) => {
-    //   return await axx;
+    // const medicationCount = async (acc) => {
+    //   return await acc;
     // };
     // const counting = medicationCount(this.counter);
     // counting.then((count) => {

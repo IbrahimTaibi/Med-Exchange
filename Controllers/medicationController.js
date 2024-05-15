@@ -111,12 +111,14 @@ exports.deleteMedication = async (req, res) => {
 exports.medicationsStats = async (req, res) => {
   try {
     const stats = await Medication.aggregate([
-      { $match: { strength: { $gte: 500 } } },
       {
         $group: {
           _id: "$indication",
           averageQuantity: { $avg: "$quantity" },
           maxQuantity: { $max: "$quantity" },
+          minQuantity: { $min: "$quantity" },
+          expiryDate: { $max: "$expiryDate" },
+          count: { $sum: 1 },
         },
       },
     ]);

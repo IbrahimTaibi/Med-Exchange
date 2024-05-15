@@ -4,4 +4,9 @@ Search : A new search operation has took 68 ms
  Search : A new search operation has took 93 ms
  Search : A new search operation has took 78 ms
  Search : A new search operation has took 81 ms
+ Search : A new search operation has took 77 ms
+ Search : A new search operation has took 99 ms
+ Search : A new search operation has took 106 ms
+ Search : A new search operation has took 294 ms
+ Search : A new search operation has took 128 ms
  
