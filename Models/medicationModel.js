@@ -1,6 +1,15 @@
 const mongoose = require("mongoose");
 const fs = require("fs");
 
+const indicationEnum = {
+  CHRONIC_PAIN: "Chronic Pain",
+  MUSCLE_SPASMS: "Muscle Spasms",
+  ANXIETY: "Anxiety",
+  INSOMNIA: "Insomnia",
+  STRESS_RELIEF: "Stress Relief",
+  // Add more indications as needed
+};
+
 const medicationSchema = new mongoose.Schema(
   {
     name: {
@@ -11,6 +20,7 @@ const medicationSchema = new mongoose.Schema(
     description: {
       type: String,
       required: [true, "description is a required field"],
+      minlength: [15, "The description must have atleast 15 characters"],
       trim: true,
     },
     quantity: {

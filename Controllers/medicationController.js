@@ -1,4 +1,5 @@
 const Medication = require("../Models/medicationModel");
+const GlobalError = require("../Utils/ErrorClass");
 const MedexFeatures = require("./../Utils/medexFeatures");
 
 // Middleware for highest strength
@@ -167,3 +168,19 @@ exports.medicationByIndication = async (req, res) => {
     });
   }
 };
+
+// Error Page not found
+
+exports.pageNotFound = (req, res, next) => {
+  // res.status(404).json({
+  //   status: "fail",
+  //   message: "Page Not found",
+  // });
+  const err = new GlobalError(
+    `Can't find ${req.originalUrl} in our application`,
+    404,
+  );
+  next(err);
+};
+
+// Error Global Middleware

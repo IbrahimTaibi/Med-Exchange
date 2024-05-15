@@ -9,4 +9,18 @@ Search : A new search operation has took 68 ms
  Search : A new search operation has took 106 ms
  Search : A new search operation has took 294 ms
  Search : A new search operation has took 128 ms
+ Search : A new search operation has took 103 ms
+ Search : A new search operation has took 157 ms
+ Search : A new search operation has took 80 ms
+ Search : A new search operation has took 84 ms
+ Search : A new search operation has took 70 ms
+ Search : A new search operation has took 67 ms
+ Search : A new search operation has took 90 ms
+ Search : A new search operation has took 61 ms
+ Search : A new search operation has took 84 ms
+ Search : A new search operation has took 58 ms
+ Search : A new search operation has took 67 ms
+ Search : A new search operation has took 95 ms
+ Search : A new search operation has took 79 ms
+ Search : A new search operation has took 98 ms
  
