@@ -25,4 +25,8 @@ Search : A new search operation has took 68 ms
  Search : A new search operation has took 98 ms
  Search : A new search operation has took 82 ms
  Search : A new search operation has took 78 ms
+ Creation : A new medication with the name Efferalgan 3 has been created by Ibrahim Taibi
+Search : A new search operation has took 105 ms
+ Search : A new search operation has took 74 ms
+ Search : A new search operation has took 136 ms
  
