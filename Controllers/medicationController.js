@@ -1,6 +1,7 @@
 const Medication = require("../Models/medicationModel");
 const GlobalError = require("../Utils/ErrorClass");
 const MedexFeatures = require("./../Utils/medexFeatures");
+const asyncErrorHandler = require("./../Utils/asyncErrorHandler");
 
 // Middleware for highest strength
 exports.HighestStrength = (req, res, next) => {
@@ -8,15 +9,8 @@ exports.HighestStrength = (req, res, next) => {
   next();
 };
 
-// Asynchronus Error handling
-const asyncErrorHandler = (fn) => {
-  return (req, res, next) => {
-    fn(req, res, next).catch((err) => next(err));
-    // next();
-  };
-};
 // Get All medications
-exports.getMedications = asyncErrorHandler(async (req, res) => {
+exports.getMedications = asyncErrorHandler(async (req, res, next) => {
   const Features = new MedexFeatures(Medication.find(), req.query)
     .filter()
     .sort()
@@ -35,12 +29,21 @@ exports.getMedications = asyncErrorHandler(async (req, res) => {
 });
 
 // Get medication by ID
-exports.getMedicationById = asyncErrorHandler(async (req, res) => {
-  const medicationById = await Medication.findById(req.params.id); // i must not forget the await ...
+exports.getMedicationById = asyncErrorHandler(async (req, res, next) => {
+  const medication = await Medication.findById(req.params.id); // i must not forget the await ...
+
+  if (!medication) {
+    const error = new GlobalError(
+      `${req.params.id} is not a valid id : NOT FOUND`,
+      404,
+    );
+    return next(error);
+  }
+
   //Send Result
   res.status(200).json({
     status: "success",
-    medicationById,
+    medication,
   });
   //Catch Error
 });
@@ -55,12 +58,20 @@ exports.addNewMedication = asyncErrorHandler(async (req, res) => {
 });
 
 // Update Medicaiton
-exports.updateMedication = asyncErrorHandler(async (req, res) => {
+exports.updateMedication = asyncErrorHandler(async (req, res, next) => {
   const medicationToUpdate = await Medication.findByIdAndUpdate(
+    // i must not forget the await ...
     req.params.id,
     req.body,
     { new: true, runValidators: true },
-  ); // i must not forget the await ...
+  );
+  if (!medicationToUpdate) {
+    const error = new GlobalError(
+      `${req.params.id} is not a valid id : NOT FOUND`,
+      404,
+    );
+    return next(error);
+  }
   res.status(200).json({
     status: "success",
     medicationToUpdate,
@@ -68,15 +79,23 @@ exports.updateMedication = asyncErrorHandler(async (req, res) => {
 });
 
 // Delete Medication
-exports.deleteMedication = asyncErrorHandler(async (req, res) => {
+exports.deleteMedication = asyncErrorHandler(async (req, res, next) => {
   const medicationToDelete = await Medication.findByIdAndDelete(req.params.id); // i must not forget the await ...
+  if (!medicationToDelete) {
+    const error = new GlobalError(
+      `${req.params.id} is not a valid id : NOT FOUND`,
+      404,
+    );
+    return next(error);
+  }
   res.status(200).json({
     status: "success",
     medicationToDelete,
   });
 });
+
 // Testing Aggregation
-exports.medicationsStats = asyncErrorHandler(async (req, res) => {
+exports.medicationsStats = asyncErrorHandler(async (req, res, next) => {
   const stats = await Medication.aggregate([
     {
       $group: {
@@ -90,13 +109,13 @@ exports.medicationsStats = asyncErrorHandler(async (req, res) => {
     },
   ]);
   res.status(200).json({
-    status: "succes",
+    status: "success",
     length: stats.length,
     stats,
   });
 });
 
-exports.medicationByIndication = asyncErrorHandler(async (req, res) => {
+exports.medicationByIndication = asyncErrorHandler(async (req, res, next) => {
   const indication = req.params.indication;
   const medications = await Medication.aggregate([
     { $unwind: "$indication" },
