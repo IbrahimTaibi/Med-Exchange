@@ -49,7 +49,7 @@ exports.getMedicationById = asyncErrorHandler(async (req, res, next) => {
 });
 
 // Add new medication
-exports.addNewMedication = asyncErrorHandler(async (req, res) => {
+exports.addNewMedication = asyncErrorHandler(async (req, res, next) => {
   const newMedication = await Medication.create(req.body); // i must not forget the await ..
   res.status(201).json({
     status: "success",

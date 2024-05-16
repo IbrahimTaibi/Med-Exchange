@@ -39,4 +39,9 @@ Search : A new search operation has took 105 ms
  Search : A new search operation has took 86 ms
  Search : A new search operation has took 95 ms
  Search : A new search operation has took 90 ms
+ Search : A new search operation has took 89 ms
+ Search : A new search operation has took 76 ms
+ Search : A new search operation has took 85 ms
+ Search : A new search operation has took 91 ms
+ Search : A new search operation has took 74 ms
  
