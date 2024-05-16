@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+
 const userSchema = mongoose.Schema({
   username: {
     type: String,
@@ -10,7 +11,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, "Please enter your e-mail"],
     unique: true,
-    validator: [validator.isEmail, "Please enter a valid email"],
+    validate: [validator.isEmail, "Please enter a valid email"],
   },
   cin: {
     type: Number,
@@ -20,11 +21,17 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: [true, "Please enter a password"],
-    validator: [validator.isStrongPassword],
+    validate: [validator.isStrongPassword],
   },
   passwordConfirmation: {
     type: String,
     required: [true, "Please Confirm your password"],
+    validate: {
+      validator: function (val) {
+        return val === this.password;
+      },
+      message: "The confirmation password is not identical",
+    },
   },
   dateOfBirth: {
     type: Date,
@@ -39,6 +46,11 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+userSchema.pre("save", (next) => {
+  console.log("hashing...");
+  next();
 });
 
 const User = mongoose.model("User", userSchema);
