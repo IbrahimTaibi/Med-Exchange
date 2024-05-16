@@ -44,4 +44,19 @@ Search : A new search operation has took 105 ms
  Search : A new search operation has took 85 ms
  Search : A new search operation has took 91 ms
  Search : A new search operation has took 74 ms
+ Search : A new search operation has took 102 ms
+ Creation : A new medication with the name Panadol Extra 2exzelt has been created by Ibrahim Taibi
+Search : A new search operation has took 98 ms
+ Search : A new search operation has took 99 ms
+ Search : A new search operation has took 86 ms
+ Search : A new search operation has took 97 ms
+ Search : A new search operation has took 114 ms
+ Search : A new search operation has took 57 ms
+ Search : A new search operation has took 106 ms
+ Search : A new search operation has took 90 ms
+ Search : A new search operation has took 73 ms
+ Search : A new search operation has took 105 ms
+ Search : A new search operation has took 55 ms
+ Search : A new search operation has took 65 ms
+ Search : A new search operation has took 77 ms
  

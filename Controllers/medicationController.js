@@ -16,7 +16,6 @@ exports.getMedications = asyncErrorHandler(async (req, res, next) => {
     .sort()
     .fields()
     .paginate();
-
   const medications = await Features.query; // i must not forget the await ...
   //Send Result
 
@@ -25,7 +24,6 @@ exports.getMedications = asyncErrorHandler(async (req, res, next) => {
     count: medications.length,
     medications,
   });
-  //Catch Error
 });
 
 // Get medication by ID

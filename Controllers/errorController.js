@@ -8,8 +8,18 @@ const devError = (res, error) => {
     error: error,
   });
 };
+
+const duplicatedErrorHandler = (e) => {
+  console.log(Object.keys(e.keyValue));
+  const msg = `the ${Object.keys(e.keyValue)} : ${
+    e.keyValue.username
+  } already exists in the database`;
+  const error = new GlobalError(msg, 400);
+  return error;
+};
 const validationErrorHandler = (e) => {
-  const msg = e.errors.name.properties.message;
+  const arr = Object.values(e.errors).map((val) => val.message);
+  const msg = arr.join("  |  ");
   return new GlobalError(msg, 400);
 };
 
@@ -40,13 +50,10 @@ module.exports = (error, req, res, next) => {
   } else if (process.env.NODE_ENV === "production") {
     let err = { ...error };
     err.name = error.name;
-    if (err.name === "CastError") {
-      err = castErrorHandler(err);
-      prodError(res, err);
-    } else if (err.name === "ValidationError") {
-      err = validationErrorHandler(err);
-      prodError(res, err);
-    }
+    if (err.code === 11000) err = duplicatedErrorHandler(err);
+    if (err.name === "CastError") err = castErrorHandler(err);
+    if (err.name === "ValidationError") err = validationErrorHandler(err);
+    prodError(res, err);
   }
   next();
 };
