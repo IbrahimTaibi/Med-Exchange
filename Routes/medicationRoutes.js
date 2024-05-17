@@ -25,6 +25,10 @@ router
   .route("/:id")
   .get(medicationController.getMedicationById)
   .patch(medicationController.updateMedication)
-  .delete(medicationController.deleteMedication);
+  .delete(
+    authController.isAuthenticated,
+    authController.isAuthorized("admin"),
+    medicationController.deleteMedication,
+  );
 
 module.exports = router;

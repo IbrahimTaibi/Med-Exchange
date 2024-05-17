@@ -83,4 +83,36 @@ Search : A new search operation has took 98 ms
  Search : A new search operation has took 100 ms
  Search : A new search operation has took 80 ms
  Search : A new search operation has took 93 ms
+ Search : A new search operation has took 69 ms
+ Search : A new search operation has took 67 ms
+ Search : A new search operation has took 68 ms
+ Search : A new search operation has took 69 ms
+ Search : A new search operation has took 64 ms
+ Search : A new search operation has took 79 ms
+ Search : A new search operation has took 81 ms
+ Search : A new search operation has took 84 ms
+ Search : A new search operation has took 73 ms
+ Search : A new search operation has took 76 ms
+ Search : A new search operation has took 137 ms
+ Search : A new search operation has took 70 ms
+ Search : A new search operation has took 62 ms
+ Search : A new search operation has took 98 ms
+ Search : A new search operation has took 82 ms
+ Search : A new search operation has took 86 ms
+ Search : A new search operation has took 68 ms
+ Search : A new search operation has took 84 ms
+ Search : A new search operation has took 84 ms
+ Search : A new search operation has took 77 ms
+ Search : A new search operation has took 79 ms
+ Search : A new search operation has took 66 ms
+ Search : A new search operation has took 170 ms
+ Search : A new search operation has took 59 ms
+ Search : A new search operation has took 66 ms
+ Search : A new search operation has took 84 ms
+ Search : A new search operation has took 101 ms
+ Search : A new search operation has took 78 ms
+ Search : A new search operation has took 80 ms
+ Search : A new search operation has took 70 ms
+ Search : A new search operation has took 68 ms
+ Search : A new search operation has took 70 ms
  

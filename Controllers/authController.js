@@ -1,6 +1,5 @@
 const asyncErrorHandler = require("../Utils/asyncErrorHandler");
 const User = require("../Models/userModel");
-const MedexFeatures = require("../Utils/medexFeatures");
 const jwt = require("jsonwebtoken");
 const GlobalError = require("../Utils/ErrorClass");
 const util = require("util");
@@ -60,7 +59,7 @@ exports.isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   // Get the token from the header
   const testToken = req.headers.authorization;
   let token;
-  if (testToken && testToken.startsWith("bearer")) {
+  if (testToken && testToken.startsWith("Bearer")) {
     token = testToken.split(" ")[1];
   }
 
@@ -79,11 +78,33 @@ exports.isAuthenticated = asyncErrorHandler(async (req, res, next) => {
 
   //If the token does not belong to any User throw error ...
   if (!authenticatedUser)
-    next(new GlobalError("Please login to continue .", 401));
+    next(
+      new GlobalError("The user with the given token does not exist  .", 401),
+    );
 
-  console.log("expires in :", decodedToken.expiresIn);
+  // if the user has changed his password
+  const isPasswordChanged = await authenticatedUser.isPasswordChanged(
+    decodedToken.iat,
+  );
+  if (isPasswordChanged) {
+    next(
+      new GlobalError(
+        "The password has changed recently , Please Login again",
+        401,
+      ),
+    );
+  }
+  req.user = authenticatedUser; //To pass the logged in user to the next middleware
   next();
 });
+
+exports.isAuthorized = (role) => {
+  return (req, res, next) => {
+    if (req.user.role === role) next();
+    else
+      next(new GlobalError("You are not allowed to perform such action", 403));
+  };
+};
 
 //==============================================================>
 //==============================================================>

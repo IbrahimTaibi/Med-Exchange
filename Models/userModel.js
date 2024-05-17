@@ -35,9 +35,15 @@ const userSchema = mongoose.Schema({
       message: "The confirmation password is not identical",
     },
   },
+  passwordChangedAt: Date,
   dateOfBirth: {
     type: Date,
     required: [true, "Please enter a Date of birth"],
+  },
+  role: {
+    type: String,
+    enum: ["admin", "user"],
+    default: "user",
   },
   createdAt: {
     type: Date,
@@ -60,6 +66,17 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.comparePwdToDb = async (pwd, pwdDb) => {
   return await bcrypt.compare(pwd, pwdDb);
+};
+
+userSchema.methods.isPasswordChanged = async function (JWTTimeStamp) {
+  if (this.passwordChangedAt) {
+    const passwordChangedAtTS = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10,
+    );
+    return passwordChangedAtTS >= JWTTimeStamp ? true : false;
+  }
+  return false;
 };
 
 const User = mongoose.model("User", userSchema);

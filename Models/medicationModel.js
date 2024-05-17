@@ -86,7 +86,7 @@ medicationSchema.post(/^find/, function (docs, next) {
     this.endTime - this.startTime
   } ms\n `;
   fs.writeFile("./Log/log.txt", content, { flag: "a" }, (e) => {
-    console.error(e);
+    // console.error(e);
   });
   next();
 });
@@ -94,7 +94,7 @@ medicationSchema.post(/^find/, function (docs, next) {
 medicationSchema.post("save", function (doc, next) {
   let content = `Creation : A new medication with the name ${doc.name} has been created by ${doc.createdBy}\n`;
   fs.writeFile("./Log/log.txt", content, { flag: "a" }, (e) => {
-    console.error(e);
+    // console.error(e);
   });
   next();
 });
