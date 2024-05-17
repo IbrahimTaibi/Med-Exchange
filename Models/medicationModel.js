@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
 const fs = require("fs");
 
-const indicationEnum = {
-  CHRONIC_PAIN: "Chronic Pain",
-  MUSCLE_SPASMS: "Muscle Spasms",
-  ANXIETY: "Anxiety",
-  INSOMNIA: "Insomnia",
-  STRESS_RELIEF: "Stress Relief",
-  // Add more indications as needed
-};
+// const indicationEnum = {
+//   CHRONIC_PAIN: "Chronic Pain",
+//   MUSCLE_SPASMS: "Muscle Spasms",
+//   ANXIETY: "Anxiety",
+//   INSOMNIA: "Insomnia",
+//   STRESS_RELIEF: "Stress Relief",
+// };
 
 const medicationSchema = new mongoose.Schema(
   {

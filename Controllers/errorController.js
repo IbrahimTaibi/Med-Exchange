@@ -10,7 +10,6 @@ const devError = (res, error) => {
 };
 
 const duplicatedErrorHandler = (e) => {
-  console.log(Object.keys(e.keyValue));
   const msg = `the ${Object.keys(e.keyValue)} : ${
     e.keyValue.username
   } already exists in the database`;
@@ -24,10 +23,18 @@ const validationErrorHandler = (e) => {
 };
 
 const castErrorHandler = (e) => {
-  const msg = `Invalid value ${e.value} for the field ${e.path}`;
-  return new GlobalError(msg, 400);
+  return new GlobalError(
+    `Invalid value ${e.value} for the field ${e.path}`,
+    400,
+  );
 };
 
+const jwtExpiredErrorHandler = (e) => {
+  return new GlobalError(`Session expired , Please login again .. `, 401);
+};
+const WebTokenErrorHandler = (e) => {
+  return new GlobalError(`Invalid Token , Please login `, 401);
+};
 const prodError = (res, error) => {
   if (error.isOperational) {
     res.status(error.statusCode).json({
@@ -48,12 +55,16 @@ module.exports = (error, req, res, next) => {
   if (process.env.NODE_ENV === "development") {
     devError(res, error);
   } else if (process.env.NODE_ENV === "production") {
-    let err = { ...error };
-    err.name = error.name;
-    if (err.code === 11000) err = duplicatedErrorHandler(err);
-    if (err.name === "CastError") err = castErrorHandler(err);
-    if (err.name === "ValidationError") err = validationErrorHandler(err);
-    prodError(res, err);
+    if (error.code === 11000) error = duplicatedErrorHandler(error);
+    if (error.name === "CastError") error = castErrorHandler(error);
+    if (error.name === "ValidationError") error = validationErrorHandler(error);
+
+    if (error.name === "TokenExpiredError")
+      error = jwtExpiredErrorHandler(error);
+
+    if (error.name === "JsonWebTokenError") error = WebTokenErrorHandler(error);
+
+    prodError(res, error);
   }
   next();
 };

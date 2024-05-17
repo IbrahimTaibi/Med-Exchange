@@ -1,5 +1,6 @@
 const express = require("express");
 const medicationController = require("../Controllers/medicationController");
+const authController = require("../Controllers/authController");
 const router = express.Router();
 
 router
@@ -17,7 +18,7 @@ router
 
 router
   .route("/")
-  .get(medicationController.getMedications)
+  .get(authController.isAuthenticated, medicationController.getMedications)
   .post(medicationController.addNewMedication);
 
 router
