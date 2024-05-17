@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 const userSchema = mongoose.Schema({
   username: {
@@ -35,6 +36,8 @@ const userSchema = mongoose.Schema({
       message: "The confirmation password is not identical",
     },
   },
+  resetPasswordToken: String,
+  resetPasswordTokenExpires: String,
   passwordChangedAt: Date,
   dateOfBirth: {
     type: Date,
@@ -79,6 +82,26 @@ userSchema.methods.isPasswordChanged = async function (JWTTimeStamp) {
   return false;
 };
 
+userSchema.methods.createResetPasswordToken = async function () {
+  // Generate a reset token
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  // Hash the reset token and set it to the user's resetPasswordToken field
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  // Set the token expiration time
+  this.resetPasswordTokenExpires = Date.now() + 10 * 60 * 1000;
+
+  // Log the tokens for debugging
+  console.log("Reset Token:", resetToken);
+  console.log("Hashed Reset Token:", this.resetPasswordToken);
+
+  // Return the original reset token
+  return resetToken;
+};
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
