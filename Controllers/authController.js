@@ -3,6 +3,8 @@ const User = require("../Models/userModel");
 const jwt = require("jsonwebtoken");
 const GlobalError = require("../Utils/ErrorClass");
 const util = require("util");
+const sendEmail = require("./../Utils/email");
+const crypto = require("crypto");
 
 // Function to generate authentication token
 const authToken = (id) => {
@@ -139,7 +141,7 @@ exports.isAuthorized = (role) => {
 exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
   // Find the user by the provided email address
   const user = await User.findOne({ email: req.body.email });
-
+  console.log(Date.now());
   // If the user does not exist, create an error and pass it to the next middleware
   if (!user) {
     const error = new GlobalError("The email you provided does not exist", 400);
@@ -147,12 +149,43 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
   }
 
   // Create a reset password token for the user
-  const resetToken = user.createResetPasswordToken();
+  const resetToken = await user.createResetPasswordToken();
 
   // Save the user to persist the reset token and its expiration time in the database
   await user.save({ validateBeforeSave: false }); // Use validateBeforeSave: false to skip validation
 
   // Send the resetToken to the user via email
+
+  // Construct the reset URL using the request protocol and host
+  const resetUrl = `${req.protocol}://${req.get(
+    "host",
+  )}/api/v2/resetPassword/${resetToken}`;
+
+  // Compose the email message with the reset URL
+  const message = `Hello there ${user.userName}, \n we have received your reset password request.\nPlease click on the link below to reset your password:\n\n ${resetUrl} .\n \n PS: This reset password link will be available only for 10 minutes.`;
+
+  try {
+    // Send the email containing the reset token link
+    await sendEmail({
+      email: user.email,
+      subject: `Reset password link`,
+      message: message,
+    });
+  } catch (err) {
+    // If an error occurs while sending the email, handle it
+    // Clear the reset token and its expiration time from the user document
+    user.resetPasswordToken = undefined;
+    user.resetPasswordTokenExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    // Pass the error to the next middleware
+    return next(
+      new GlobalError(
+        "An error occurred while sending the reset password token.",
+        500,
+      ),
+    );
+  }
 
   // Send a response back to the client
   res.status(200).json({
@@ -161,7 +194,49 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-exports.resetPassword = asyncErrorHandler(async (req, res, next) => {});
+exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
+  const resetToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({ resetPasswordToken: resetToken });
+
+  if (!user) {
+    const error = new GlobalError(
+      `You've entered a wrong url to reset the password , Make sure to enter the correct one `,
+      400,
+    );
+    next(error);
+  }
+
+  if (user.resetPasswordTokenExpires < Date.now()) {
+    const error = new GlobalError(
+      `Your reset link has been expired try again `,
+      400,
+    );
+    next(error);
+  }
+
+  user.password = req.body.password;
+  user.passwordConfirmation = req.body.passwordConfirmation;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordTokenExpires = undefined;
+  user.updatedAt = Date.now();
+
+  await user.save();
+
+  const token = authToken(user._id);
+
+  // Respond with success status, token, and user data
+  res.status(201).json({
+    status: "succes", // Typo here, should be "success"
+    token,
+    data: {
+      user,
+    },
+  });
+});
 //==============================================================>
 //==============================================================>
 /* exports.getUsers = asyncErrorHandler(async (req, res, next) => {

@@ -115,4 +115,11 @@ Search : A new search operation has took 98 ms
  Search : A new search operation has took 70 ms
  Search : A new search operation has took 68 ms
  Search : A new search operation has took 70 ms
+ Search : A new search operation has took 69 ms
+ Search : A new search operation has took 63 ms
+ Search : A new search operation has took 48 ms
+ Search : A new search operation has took 75 ms
+ Search : A new search operation has took 60 ms
+ Search : A new search operation has took 1428 ms
+ Search : A new search operation has took 73 ms
  

@@ -37,7 +37,7 @@ const userSchema = mongoose.Schema({
     },
   },
   resetPasswordToken: String,
-  resetPasswordTokenExpires: String,
+  resetPasswordTokenExpires: Date,
   passwordChangedAt: Date,
   dateOfBirth: {
     type: Date,
@@ -96,8 +96,8 @@ userSchema.methods.createResetPasswordToken = async function () {
   this.resetPasswordTokenExpires = Date.now() + 10 * 60 * 1000;
 
   // Log the tokens for debugging
-  console.log("Reset Token:", resetToken);
-  console.log("Hashed Reset Token:", this.resetPasswordToken);
+  /*  console.log("Reset Token:", resetToken);
+  console.log("Hashed Reset Token:", this.resetPasswordToken); */
 
   // Return the original reset token
   return resetToken;

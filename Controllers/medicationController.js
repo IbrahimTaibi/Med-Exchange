@@ -2,7 +2,7 @@ const Medication = require("../Models/medicationModel");
 const GlobalError = require("../Utils/ErrorClass");
 const MedexFeatures = require("./../Utils/medexFeatures");
 const asyncErrorHandler = require("./../Utils/asyncErrorHandler");
-
+const authenticatedUser = require("./authController");
 // Middleware for highest strength
 exports.HighestStrength = (req, res, next) => {
   (req.query.limit = "5"), (req.query.sort = "-strength");
@@ -18,7 +18,7 @@ exports.getMedications = asyncErrorHandler(async (req, res, next) => {
     .paginate();
   const medications = await Features.query; // i must not forget the await ...
   //Send Result
-
+  console.log();
   res.status(200).json({
     status: "success",
     count: medications.length,
