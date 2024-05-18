@@ -24,7 +24,7 @@ router
 router
   .route("/:id")
   .get(medicationController.getMedicationById)
-  .patch(medicationController.updateMedication)
+  .patch(authController.isAuthenticated, medicationController.updateMedication)
   .delete(
     authController.isAuthenticated,
     medicationController.deleteMedication,

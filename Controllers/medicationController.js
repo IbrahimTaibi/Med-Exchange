@@ -91,7 +91,16 @@ exports.updateMedication = asyncErrorHandler(async (req, res, next) => {
 
 // Delete Medication
 exports.deleteMedication = asyncErrorHandler(async (req, res, next) => {
-  const medicationToDelete = await Medication.findByIdAndDelete(req.params.id); // i must not forget the await ...
+  // i must not forget the await ...
+  //
+  console.log(medicationToDelete.createdBy[0]);
+  if (!(medicationToDelete.createdBy[0] == req.user._id)) {
+    const error = new GlobalError(`This medication is not yours `, 400);
+    return next(error);
+  }
+
+  const medicationToDelete = await Medication.findByIdAndDelete(req.params.id);
+
   if (!medicationToDelete) {
     const error = new GlobalError(
       `${req.params.id} is not a valid id : NOT FOUND`,
@@ -99,6 +108,7 @@ exports.deleteMedication = asyncErrorHandler(async (req, res, next) => {
     );
     return next(error);
   }
+
   res.status(200).json({
     status: "success",
     medicationToDelete,

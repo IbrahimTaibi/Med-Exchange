@@ -2,7 +2,6 @@ const asyncErrorHandler = require("../Utils/asyncErrorHandler");
 const User = require("../Models/userModel");
 const jwt = require("jsonwebtoken");
 const GlobalError = require("../Utils/ErrorClass");
-const authController = require("./authController");
 
 // Field that the user allowed to update function
 const allowedFields = (obj, ...fields) => {
@@ -37,7 +36,7 @@ const createResponse = (user, statusCode, res) => {
 //----------------------------------------------------------------
 
 exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
-  const user = await User.findById(req.user._id).select("+password");
+  const user = await User.findById(req.user.id).select("+password");
 
   if (!(await user.comparePwdToDb(req.body.currentPassword, user.password))) {
     const error = new GlobalError(
@@ -89,7 +88,7 @@ exports.deleteMe = asyncErrorHandler(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, {
     active: false,
   });
-  res.status(200).json({
+  res.status(204).json({
     status: "success",
     data: null,
   });

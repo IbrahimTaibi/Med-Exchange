@@ -158,3 +158,40 @@ Search : A new search operation has took 72 ms
  Search : A new search operation has took 66 ms
  Search : A new search operation has took 105 ms
  Creation : A new medication with the name inflamyl has been created by 6648c3b98d6decca3cf2f25f,user1
+Creation : A new medication with the name inflamyl has been created by 6648c3b98d6decca3cf2f25f,user1
+Creation : A new medication with the name inflamyl has been created by 6648c3b98d6decca3cf2f25f,user1
+Search : A new search operation has took 106 ms
+ Search : A new search operation has took 64 ms
+ Search : A new search operation has took 68 ms
+ Search : A new search operation has took 61 ms
+ Search : A new search operation has took 59 ms
+ Search : A new search operation has took 66 ms
+ Search : A new search operation has took 78 ms
+ Search : A new search operation has took 61 ms
+ Search : A new search operation has took 58 ms
+ Search : A new search operation has took 65 ms
+ Search : A new search operation has took 62 ms
+ Search : A new search operation has took 86 ms
+ Search : A new search operation has took 99 ms
+ Search : A new search operation has took 60 ms
+ Search : A new search operation has took 64 ms
+ Creation : A new medication with the name inflamyl has been created by 6648c3b98d6decca3cf2f25f,user1
+Search : A new search operation has took 64 ms
+ Search : A new search operation has took 71 ms
+ Search : A new search operation has took 75 ms
+ Search : A new search operation has took 71 ms
+ Search : A new search operation has took 69 ms
+ Search : A new search operation has took 58 ms
+ Search : A new search operation has took 60 ms
+ Search : A new search operation has took 58 ms
+ Search : A new search operation has took 58 ms
+ Search : A new search operation has took 89 ms
+ Search : A new search operation has took 55 ms
+ Search : A new search operation has took 62 ms
+ Search : A new search operation has took 62 ms
+ Search : A new search operation has took 57 ms
+ Search : A new search operation has took 66 ms
+ Creation : A new medication with the name NOMED has been created by 6648c3b98d6decca3cf2f25f,user1
+Search : A new search operation has took 65 ms
+ Search : A new search operation has took 58 ms
+ 
