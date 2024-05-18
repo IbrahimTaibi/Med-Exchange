@@ -67,7 +67,7 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.comparePwdToDb = async (pwd, pwdDb) => {
+userSchema.methods.comparePwdToDb = async function (pwd, pwdDb) {
   return await bcrypt.compare(pwd, pwdDb);
 };
 

@@ -18,8 +18,8 @@ router
 
 router
   .route("/")
-  .get(authController.isAuthenticated, medicationController.getMedications)
-  .post(medicationController.addNewMedication);
+  .get(medicationController.getMedications)
+  .post(authController.isAuthenticated, medicationController.addNewMedication);
 
 router
   .route("/:id")

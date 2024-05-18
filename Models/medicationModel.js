@@ -48,7 +48,7 @@ const medicationSchema = new mongoose.Schema(
       default: Date.now,
     },
     createdBy: {
-      type: String,
+      type: [String],
     },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } },
@@ -60,7 +60,7 @@ medicationSchema.pre("save", function (next) {
   if (this.expiryDate <= today) {
     this.expired = true;
   } else this.expired = false;
-  this.createdBy = "Ibrahim Taibi";
+
   next();
 });
 

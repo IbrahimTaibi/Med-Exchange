@@ -3,6 +3,7 @@ const GlobalError = require("../Utils/ErrorClass");
 const MedexFeatures = require("./../Utils/medexFeatures");
 const asyncErrorHandler = require("./../Utils/asyncErrorHandler");
 const authenticatedUser = require("./authController");
+const User = require("../Models/userModel");
 // Middleware for highest strength
 exports.HighestStrength = (req, res, next) => {
   (req.query.limit = "5"), (req.query.sort = "-strength");
@@ -11,6 +12,7 @@ exports.HighestStrength = (req, res, next) => {
 
 // Get All medications
 exports.getMedications = asyncErrorHandler(async (req, res, next) => {
+  console.log(req.user);
   const Features = new MedexFeatures(Medication.find(), req.query)
     .filter()
     .sort()
@@ -38,9 +40,13 @@ exports.getMedicationById = asyncErrorHandler(async (req, res, next) => {
     return next(error);
   }
 
+  const user = await User.findById(medication.createdBy[0]);
   //Send Result
   res.status(200).json({
     status: "success",
+    createdBy: {
+      user,
+    },
     medication,
   });
   //Catch Error
@@ -48,9 +54,16 @@ exports.getMedicationById = asyncErrorHandler(async (req, res, next) => {
 
 // Add new medication
 exports.addNewMedication = asyncErrorHandler(async (req, res, next) => {
-  const newMedication = await Medication.create(req.body); // i must not forget the await ..
+  const user = await User.findById(req.user._id);
+  // console.log(user._id);
+  req.body.createdBy = [user._id, user.username];
+  let newMedication = await Medication.create(req.body); // i must not forget the await ..
+  // console.log(await User.findById(newMedication.createdBy[0]));
   res.status(201).json({
     status: "success",
+    createdBy: {
+      user,
+    },
     newMedication,
   });
 });

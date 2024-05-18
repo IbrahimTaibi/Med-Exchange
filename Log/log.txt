@@ -122,4 +122,35 @@ Search : A new search operation has took 98 ms
  Search : A new search operation has took 60 ms
  Search : A new search operation has took 1428 ms
  Search : A new search operation has took 73 ms
+ Search : A new search operation has took 65 ms
+ Search : A new search operation has took 61 ms
+ Creation : A new medication with the name inflamyl has been created by Ibrahim Taibi
+Creation : A new medication with the name inflamyl has been created by Ibrahim Taibi
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by undefined
+Search : A new search operation has took 76 ms
+ Creation : A new medication with the name inflamyl has been created by undefined
+Search : A new search operation has took 78 ms
+ Creation : A new medication with the name inflamyl has been created by undefined
+Search : A new search operation has took 85 ms
+ Creation : A new medication with the name inflamyl has been created by holindor
+Creation : A new medication with the name inflamyl has been created by 6648a701be302e919fddce20
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by undefined
+Creation : A new medication with the name inflamyl has been created by 6648a701be302e919fddce20
+Creation : A new medication with the name inflamyl has been created by 6648a701be302e919fddce20,ibrahim Taibi Admin
+Creation : A new medication with the name inflamyl has been created by 6648a701be302e919fddce20,ibrahim Taibi Admin
+Creation : A new medication with the name inflamyl has been created by 6648a701be302e919fddce20,ibrahim Taibi Admin
+Creation : A new medication with the name inflamyl has been created by 6648a701be302e919fddce20,ibrahim Taibi Admin
+Search : A new search operation has took 72 ms
+ Search : A new search operation has took 106 ms
+ Search : A new search operation has took 73 ms
+ Search : A new search operation has took 89 ms
  

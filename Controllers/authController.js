@@ -13,22 +13,25 @@ const authToken = (id) => {
   });
 };
 
-// Sign up route
-exports.signUp = asyncErrorHandler(async (req, res, next) => {
-  // Create a new user based on request body
-  const user = await User.create(req.body);
-
+const createResponse = (user, statusCode, res) => {
   // Generate authentication token for the new user
   const token = authToken(user._id);
-
-  // Respond with success status, token, and user data
-  res.status(201).json({
+  res.status(statusCode).json({
     status: "succes", // Typo here, should be "success"
     token,
     data: {
       user,
     },
   });
+};
+
+// Sign up route
+exports.signUp = asyncErrorHandler(async (req, res, next) => {
+  // Create a new user based on request body
+  const user = await User.create(req.body);
+
+  // Respond with success status, token, and user data
+  createResponse(user, 200, res);
 });
 
 // Login route
@@ -63,26 +66,19 @@ exports.login = asyncErrorHandler(async (req, res, next) => {
     const error = new GlobalError(`Wrong password`, 400);
     return next(error);
   }
-
-  // Generate authentication token for the logged-in user
-  const token = authToken(user._id);
-
-  // Respond with success status and token
-  res.status(200).json({
-    status: "success",
-    token,
-  });
+  // sending the response
+  createResponse(user, 200, res);
 });
 
 // Middleware to check if a user is authenticated
 exports.isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   // Get the token from the authorization header
-  const testToken = req.headers.authorization;
+  const currentToken = req.headers.authorization;
   let token;
 
   // Check if the token is provided and starts with "Bearer"
-  if (testToken && testToken.startsWith("Bearer")) {
-    token = testToken.split(" ")[1]; // Extract the token from the header
+  if (currentToken && currentToken.startsWith("Bearer")) {
+    token = currentToken.split(" ")[1]; // Extract the token from the header
   }
 
   // If no token is found in the header, return an error
@@ -188,10 +184,7 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
   }
 
   // Send a response back to the client
-  res.status(200).json({
-    status: "success",
-    message: "Token sent to email!",
-  });
+  createResponse(user, 200, res);
 });
 
 exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
@@ -226,17 +219,10 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
 
   await user.save();
 
-  const token = authToken(user._id);
-
   // Respond with success status, token, and user data
-  res.status(201).json({
-    status: "succes", // Typo here, should be "success"
-    token,
-    data: {
-      user,
-    },
-  });
+  createResponse(user, 200, res);
 });
+
 //==============================================================>
 //==============================================================>
 /* exports.getUsers = asyncErrorHandler(async (req, res, next) => {
