@@ -25,6 +25,7 @@ const createResponse = (user, statusCode, res) => {
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
   }
+  user.password = undefined;
   res.cookie("jwt", token, options);
 
   res.status(statusCode).json({

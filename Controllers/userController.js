@@ -23,6 +23,30 @@ const authToken = (id) => {
   });
 };
 
+const createResponse = (user, statusCode, res) => {
+  // Generate authentication token for the new user
+  const token = authToken(user._id);
+
+  const options = {
+    maxAge: process.env.EXPIRE_TOKEN_IN,
+    httpOnly: true,
+  };
+
+  if (process.env.NODE_ENV === "production") {
+    options.secure = true;
+  }
+  user.password = undefined;
+  res.cookie("jwt", token, options);
+
+  res.status(statusCode).json({
+    status: "succes", // Typo here, should be "success"
+    token,
+    data: {
+      user,
+    },
+  });
+};
+
 exports.getUsers = asyncErrorHandler(async (req, res, next) => {
   const Features = new MedexFeatures(User.find(), req.query)
     .filter()
@@ -38,17 +62,6 @@ exports.getUsers = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-const createResponse = (user, statusCode, res) => {
-  // Generate authentication token for the new user
-  const token = authToken(user._id);
-  res.status(statusCode).json({
-    status: "succes", // Typo here, should be "success"
-    token,
-    data: {
-      user,
-    },
-  });
-};
 //----------------------------------------------------------------
 
 exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
