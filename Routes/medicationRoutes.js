@@ -27,7 +27,6 @@ router
   .patch(medicationController.updateMedication)
   .delete(
     authController.isAuthenticated,
-    authController.isAuthorized("admin"),
     medicationController.deleteMedication,
   );
 

@@ -153,4 +153,8 @@ Search : A new search operation has took 72 ms
  Search : A new search operation has took 106 ms
  Search : A new search operation has took 73 ms
  Search : A new search operation has took 89 ms
- 
+ Search : A new search operation has took 93 ms
+ Search : A new search operation has took 109 ms
+ Search : A new search operation has took 66 ms
+ Search : A new search operation has took 105 ms
+ Creation : A new medication with the name inflamyl has been created by 6648c3b98d6decca3cf2f25f,user1

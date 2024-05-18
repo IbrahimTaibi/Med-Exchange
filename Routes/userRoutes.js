@@ -12,4 +12,8 @@ router
   .route("/updateinfo")
   .patch(authController.isAuthenticated, userController.updateUserInfo);
 
+router
+  .route("/deleteMe")
+  .patch(authController.isAuthenticated, userController.deleteMe);
+
 module.exports = router;

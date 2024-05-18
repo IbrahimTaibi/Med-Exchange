@@ -84,3 +84,13 @@ exports.updateUserInfo = asyncErrorHandler(async (req, res, next) => {
 
   createResponse(updatedUser, 200, res);
 });
+
+exports.deleteMe = asyncErrorHandler(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, {
+    active: false,
+  });
+  res.status(200).json({
+    status: "success",
+    data: null,
+  });
+});
