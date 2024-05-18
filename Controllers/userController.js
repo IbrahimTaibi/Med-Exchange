@@ -2,6 +2,7 @@ const asyncErrorHandler = require("../Utils/asyncErrorHandler");
 const User = require("../Models/userModel");
 const jwt = require("jsonwebtoken");
 const GlobalError = require("../Utils/ErrorClass");
+const MedexFeatures = require("../Utils/medexFeatures");
 
 // Field that the user allowed to update function
 const allowedFields = (obj, ...fields) => {
@@ -21,6 +22,21 @@ const authToken = (id) => {
     expiresIn: process.env.EXPIRE_TOKEN_IN,
   });
 };
+
+exports.getUsers = asyncErrorHandler(async (req, res, next) => {
+  const Features = new MedexFeatures(User.find(), req.query)
+    .filter()
+    .sort()
+    .fields()
+    .paginate();
+  const user = await Features.query; // i must not forget the await ...
+  //Send Result
+  res.status(200).json({
+    status: "success",
+    count: user.length,
+    user,
+  });
+});
 
 const createResponse = (user, statusCode, res) => {
   // Generate authentication token for the new user

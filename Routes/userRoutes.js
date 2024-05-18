@@ -4,6 +4,7 @@ const authController = require("../Controllers/authController");
 
 router = express.Router();
 
+router.route("/").get(userController.getUsers);
 router
   .route("/updatePassword")
   .patch(authController.isAuthenticated, userController.updatePassword);

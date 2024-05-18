@@ -72,6 +72,11 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+userSchema.pre(/^find/, async function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
+
 userSchema.methods.comparePwdToDb = async function (pwd, pwdDb) {
   return await bcrypt.compare(pwd, pwdDb);
 };
