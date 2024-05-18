@@ -12,7 +12,6 @@ exports.HighestStrength = (req, res, next) => {
 
 // Get All medications
 exports.getMedications = asyncErrorHandler(async (req, res, next) => {
-  console.log(req.user);
   const Features = new MedexFeatures(Medication.find(), req.query)
     .filter()
     .sort()

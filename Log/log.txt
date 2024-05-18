@@ -200,4 +200,13 @@ Search : A new search operation has took 65 ms
  Search : A new search operation has took 215 ms
  Creation : A new medication with the name NOMED has been created by 6648d8fa877ab362041ccd10,admin_new
 Search : A new search operation has took 192 ms
+ Search : A new search operation has took 109 ms
+ Creation : A new medication with the name NOMED has been created by 6648d8fa877ab362041ccd10,admin_new
+Search : A new search operation has took 100 ms
+ Search : A new search operation has took 83 ms
+ Search : A new search operation has took 112 ms
+ Search : A new search operation has took 94 ms
+ Search : A new search operation has took 75 ms
+ Search : A new search operation has took 82 ms
+ Search : A new search operation has took 101 ms
  
