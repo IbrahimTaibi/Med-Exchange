@@ -11,9 +11,10 @@ const hpp = require("hpp");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
-
+const cors = require("cors");
 const app = express();
 
+app.use(cors());
 // Set security-related HTTP headers
 app.use(helmet());
 
