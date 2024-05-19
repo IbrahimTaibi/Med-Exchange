@@ -1,27 +1,42 @@
 const dotenv = require("dotenv");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
+// Load environment variables from .env file
 dotenv.config({ path: "./config.env" });
-const url = process.env.URL;
 
-uncaughtExecption: process.on("uncaughtException", (err) => {
-  console.log(err.message);
-  console.log("Uncaught exception occured , Shutting down ...");
+const app = require("./app");
+
+// Handle uncaught exceptions
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception: ", err.message);
+  console.error("Shutting down due to uncaught exception...");
   process.exit(1);
 });
 
-const app = require("./app");
-const server = app.listen(url, () => {
-  console.log("listening to " + url);
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Database connected successfully");
+  })
+  .catch((err) => {
+    console.error("Database connection error: ", err.message);
+    process.exit(1);
+  });
+
+// Start the server
+const port = process.env.PORT || 3000;
+const server = app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
 
-mongoose.connect(process.env.MONGO_DB).then(() => {
-  console.log("Database connected successfully");
-});
-
-UnhandledRejection: process.on("unhandledRejection", (err) => {
-  console.log(err.message);
-  console.log("unhandled Rejection occured , Shutting down ...");
+// Handle unhandled promise rejections
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled Rejection: ", err.message);
+  console.error("Shutting down due to unhandled rejection...");
   server.close(() => {
     process.exit(1);
   });
