@@ -3,6 +3,11 @@ const authController = require("../Controllers/authController");
 
 router = express.Router();
 
+router.route("/").get((req, res) => {
+  res.json({
+    status: "hello",
+  });
+});
 router.route("/signup").post(authController.signUp);
 router.route("/login").post(authController.login);
 router.route("/forgotPassword").post(authController.forgotPassword);
