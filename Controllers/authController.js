@@ -235,4 +235,36 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
   createResponse(user, 200, res);
 });
 
+exports.validateToken = asyncErrorHandler(async (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ status: "fail", message: "No token provided" });
+  }
+
+  try {
+    const decodedToken = await util.promisify(jwt.verify)(
+      token,
+      process.env.SECRET_STR,
+    );
+    const user = await User.findById(decodedToken.id);
+
+    if (!user) {
+      return res.status(401).json({ status: "fail", message: "Invalid token" });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        user,
+      },
+    });
+  } catch (err) {
+    res
+      .status(401)
+      .json({ status: "fail", message: "Token validation failed" });
+  }
+});
 //==============================================================>

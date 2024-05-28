@@ -1,7 +1,8 @@
+// authRoutes.js
 const express = require("express");
 const authController = require("../Controllers/authController");
 
-router = express.Router();
+const router = express.Router();
 
 router.route("/").get((req, res) => {
   res.json({
@@ -13,5 +14,8 @@ router.route("/signup").post(authController.signUp);
 router.route("/login").post(authController.login);
 router.route("/forgotPassword").post(authController.forgotPassword);
 router.route("/resetPassword/:token").patch(authController.resetPassword);
+
+// Add the new route for token validation
+router.route("/validateToken").get(authController.validateToken);
 
 module.exports = router;
