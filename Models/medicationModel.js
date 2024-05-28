@@ -41,6 +41,10 @@ const medicationSchema = new mongoose.Schema(
       type: [String],
       required: [true, "indication is a required field"],
     },
+    status: {
+      type: String,
+      default: "Pending",
+    },
     image: String,
     route: String,
     createdAt: {
