@@ -13,6 +13,7 @@ router
   .route("/updateinfo")
   .patch(authController.isAuthenticated, userController.updateUserInfo);
 
+router.route("/:id").get(userController.getUserById);
 router
   .route("/deleteMe")
   .patch(authController.isAuthenticated, userController.deleteMe);

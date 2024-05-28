@@ -62,6 +62,21 @@ exports.getUsers = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+exports.getUserById = asyncErrorHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id); // i must not forget the await ...
+
+  if (!user) {
+    const error = new GlobalError(
+      `${req.params.id} is not a valid id : NOT FOUND`,
+      404,
+    );
+    return next(error);
+  }
+  res.status(200).json({
+    status: "success",
+    user,
+  });
+});
 //----------------------------------------------------------------
 
 exports.updatePassword = asyncErrorHandler(async (req, res, next) => {

@@ -8,6 +8,7 @@ router.route("/").get((req, res) => {
     status: "hello",
   });
 });
+
 router.route("/signup").post(authController.signUp);
 router.route("/login").post(authController.login);
 router.route("/forgotPassword").post(authController.forgotPassword);
