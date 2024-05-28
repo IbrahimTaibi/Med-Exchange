@@ -15,9 +15,9 @@ const userSchema = mongoose.Schema({
     unique: true,
     validate: [validator.isEmail, "Please enter a valid email"],
   },
-  cin: {
+  phoneNumber: {
     type: Number,
-    required: [true, "Please enter a CIN"],
+    required: [true, "Please enter a Phone Number"],
     unique: true,
   },
   password: {

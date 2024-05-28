@@ -255,4 +255,7 @@ Search : A new search operation has took 100 ms
  Search : A new search operation has took 63 ms
  Search : A new search operation has took 71 ms
  Search : A new search operation has took 82 ms
+ Search : A new search operation has took 85 ms
+ Search : A new search operation has took 94 ms
+ Search : A new search operation has took 79 ms
  
