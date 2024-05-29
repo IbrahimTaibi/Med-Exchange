@@ -157,6 +157,28 @@ exports.medicationByIndication = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+// Find medications by indication (non-aggregation)
+exports.getMedicationsByIndication = asyncErrorHandler(
+  async (req, res, next) => {
+    const { indication } = req.params;
+
+    const medications = await Medication.find({ indication });
+
+    if (!medications.length) {
+      return res.status(404).json({
+        status: "fail",
+        message: `No medications found for indication: ${indication}`,
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      count: medications.length,
+      medications,
+    });
+  },
+);
+
 // Error Page not found
 
 exports.pageNotFound = (req, res, next) => {

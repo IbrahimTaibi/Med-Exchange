@@ -4,8 +4,12 @@ const authController = require("../Controllers/authController");
 const router = express.Router();
 
 router
-  .route("/medication-by-indication/:indication")
-  .get(medicationController.medicationByIndication);
+  .route("/medications-by-indication/:indication")
+  .get(medicationController.getMedicationsByIndication);
+
+// router
+//   .route("/medication-by-indication/:indication")
+//   .get(medicationController.medicationByIndication);
 
 router.route("/medication-stats").get(medicationController.medicationsStats);
 
