@@ -28,7 +28,6 @@ const userSchema = mongoose.Schema({
   },
   passwordConfirmation: {
     type: String,
-    required: [true, "Please Confirm your password"],
     validate: {
       validator: function (val) {
         return val === this.password;
@@ -41,7 +40,6 @@ const userSchema = mongoose.Schema({
   passwordChangedAt: Date,
   dateOfBirth: {
     type: Date,
-    required: [true, "Please enter a Date of birth"],
   },
   role: {
     type: String,
