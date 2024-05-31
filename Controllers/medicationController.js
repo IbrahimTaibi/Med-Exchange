@@ -4,9 +4,11 @@ const MedexFeatures = require("./../Utils/medexFeatures");
 const asyncErrorHandler = require("./../Utils/asyncErrorHandler");
 const authenticatedUser = require("./authController");
 const User = require("../Models/userModel");
+
 // Middleware for highest strength
 exports.HighestStrength = (req, res, next) => {
-  (req.query.limit = "5"), (req.query.sort = "-strength");
+  req.query.limit = "5";
+  req.query.sort = "-strength";
   next();
 };
 
@@ -14,12 +16,12 @@ exports.HighestStrength = (req, res, next) => {
 exports.getMedications = asyncErrorHandler(async (req, res, next) => {
   const Features = new MedexFeatures(Medication.find(), req.query)
     .filter()
+    .search() // Add the search method here
     .sort()
     .fields()
     .paginate();
-  const medications = await Features.query; // i must not forget the await ...
-  //Send Result
-  console.log();
+  const medications = await Features.query; // Don't forget the await ...
+
   res.status(200).json({
     status: "success",
     count: medications.length,
@@ -29,7 +31,7 @@ exports.getMedications = asyncErrorHandler(async (req, res, next) => {
 
 // Get medication by ID
 exports.getMedicationById = asyncErrorHandler(async (req, res, next) => {
-  const medication = await Medication.findById(req.params.id); // i must not forget the await ...
+  const medication = await Medication.findById(req.params.id); // Don't forget the await ...
 
   if (!medication) {
     const error = new GlobalError(
@@ -40,7 +42,7 @@ exports.getMedicationById = asyncErrorHandler(async (req, res, next) => {
   }
 
   const user = await User.findById(medication.createdBy[0]);
-  //Send Result
+  // Send Result
   res.status(200).json({
     status: "success",
     createdBy: {
@@ -48,16 +50,14 @@ exports.getMedicationById = asyncErrorHandler(async (req, res, next) => {
     },
     medication,
   });
-  //Catch Error
 });
 
 // Add new medication
 exports.addNewMedication = asyncErrorHandler(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  // console.log(user._id);
   req.body.createdBy = [user._id, user.username];
-  let newMedication = await Medication.create(req.body); // i must not forget the await ..
-  // console.log(await User.findById(newMedication.createdBy[0]));
+  let newMedication = await Medication.create(req.body); // Don't forget the await ...
+
   res.status(201).json({
     status: "success",
     createdBy: {
@@ -67,14 +67,14 @@ exports.addNewMedication = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-// Update Medicaiton
+// Update Medication
 exports.updateMedication = asyncErrorHandler(async (req, res, next) => {
   const medicationToUpdate = await Medication.findByIdAndUpdate(
-    // i must not forget the await ...
     req.params.id,
     req.body,
     { new: true, runValidators: true },
   );
+
   if (!medicationToUpdate) {
     const error = new GlobalError(
       `${req.params.id} is not a valid id : NOT FOUND`,
@@ -90,21 +90,18 @@ exports.updateMedication = asyncErrorHandler(async (req, res, next) => {
 
 // Delete Medication
 exports.deleteMedication = asyncErrorHandler(async (req, res, next) => {
-  // i must not forget the await ...
-  //
-  console.log(medicationToDelete.createdBy[0]);
-  if (!(medicationToDelete.createdBy[0] == req.user._id)) {
-    const error = new GlobalError(`This medication is not yours `, 400);
-    return next(error);
-  }
-
-  const medicationToDelete = await Medication.findByIdAndDelete(req.params.id);
+  const medicationToDelete = await Medication.findByIdAndDelete(req.params.id); // Don't forget the await ...
 
   if (!medicationToDelete) {
     const error = new GlobalError(
       `${req.params.id} is not a valid id : NOT FOUND`,
       404,
     );
+    return next(error);
+  }
+
+  if (medicationToDelete.createdBy[0] != req.user._id) {
+    const error = new GlobalError(`This medication is not yours`, 400);
     return next(error);
   }
 
@@ -151,7 +148,7 @@ exports.medicationByIndication = asyncErrorHandler(async (req, res, next) => {
     { $match: { indication: indication } },
   ]);
   res.status(200).json({
-    status: "succes",
+    status: "success",
     length: medications.length,
     medications,
   });
@@ -161,7 +158,6 @@ exports.medicationByIndication = asyncErrorHandler(async (req, res, next) => {
 exports.getMedicationsByIndication = asyncErrorHandler(
   async (req, res, next) => {
     const { indication } = req.params;
-
     const medications = await Medication.find({ indication });
 
     if (!medications.length) {
@@ -180,7 +176,6 @@ exports.getMedicationsByIndication = asyncErrorHandler(
 );
 
 // Error Page not found
-
 exports.pageNotFound = (req, res, next) => {
   const err = new GlobalError(
     `Can't find ${req.originalUrl} in our application`,
