@@ -14,6 +14,7 @@ const dotenv = require("dotenv");
 const helmet = require("helmet");
 const cors = require("cors");
 
+app.set("trust proxy", 2);
 // Load environment variables from config.env file
 dotenv.config({ path: "./config.env" });
 
