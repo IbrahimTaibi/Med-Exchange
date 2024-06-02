@@ -6,7 +6,13 @@ exports.getChatsForUser = async (req, res) => {
     const { userId } = req.params;
     const chats = await Chat.find({ users: userId })
       .populate("users", "username")
-      .populate("latestMessage");
+      .populate({
+        path: "latestMessage",
+        populate: {
+          path: "sender receiver",
+          select: "username",
+        },
+      });
     res.status(200).json({
       status: "success",
       results: chats.length,
