@@ -1,4 +1,5 @@
-const Chat = require("../Models/chatMessage");
+const Chat = require("../Models/chatSchema");
+const ChatMessage = require("../Models/chatMessage");
 
 exports.getChatsForUser = async (req, res) => {
   try {
