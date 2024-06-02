@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ChatMessage = require("../Models/chatMessage");
 const chatController = require("../Controllers/chatController");
-
+const mongoose = require("mongoose");
 // Middleware to validate ObjectIds
 const validateObjectId = (req, res, next) => {
   const { sender, receiver, userId } = req.params;
