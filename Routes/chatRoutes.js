@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const ChatMessage = require("./models/ChatMessage");
+const ChatMessage = require("./models/chatMessage");
 
 // Fetch chat messages between two users
 router.get("/:sender/:receiver", async (req, res) => {
