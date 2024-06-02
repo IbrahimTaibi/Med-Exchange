@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Chat = require("../Models/chatSchema");
+
 exports.getChatsForUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -9,7 +10,7 @@ exports.getChatsForUser = async (req, res) => {
         message: "Invalid user ID",
       });
     }
-    const chats = await Chat.find({ users: userId })
+    const chats = await Chat.find({ users: [userId] })
       .populate("users", "username")
       .populate("latestMessage");
     res.status(200).json({
