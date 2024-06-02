@@ -3,6 +3,24 @@ const router = express.Router();
 const ChatMessage = require("../Models/chatMessage");
 const chatController = require("../Controllers/chatController");
 
+// Middleware to validate ObjectIds
+const validateObjectId = (req, res, next) => {
+  const { sender, receiver, userId } = req.params;
+  const { sender: bodySender, receiver: bodyReceiver } = req.body;
+
+  if (
+    (sender && !mongoose.Types.ObjectId.isValid(sender)) ||
+    (receiver && !mongoose.Types.ObjectId.isValid(receiver)) ||
+    (userId && !mongoose.Types.ObjectId.isValid(userId)) ||
+    (bodySender && !mongoose.Types.ObjectId.isValid(bodySender)) ||
+    (bodyReceiver && !mongoose.Types.ObjectId.isValid(bodyReceiver))
+  ) {
+    return res.status(400).send("Invalid ObjectId");
+  }
+  next();
+};
+
+router.use(validateObjectId);
 // Fetch chat messages between two users
 router.get("/:sender/:receiver", async (req, res) => {
   const { sender, receiver } = req.params;
