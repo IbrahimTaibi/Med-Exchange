@@ -12,9 +12,12 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const cors = require("cors");
+
+// Load environment variables from config.env file
+dotenv.config({ path: "./config.env" });
+
 const app = express();
 
-//Set Cors
 app.use(cors());
 // Set security-related HTTP headers
 app.use(helmet());
@@ -27,9 +30,6 @@ let limiter = rateLimiter({
     "You reached the maximum amount of requests, please try again later after 1 hour",
 });
 app.use("/api", limiter); // Apply rate limiter to all API routes
-
-// Load environment variables from config.env file
-dotenv.config({ path: "./config.env" });
 
 // Enable detailed request logging in development mode
 if (process.env.NODE_ENV == "development") {
@@ -49,7 +49,7 @@ app.use(sanitize());
 // Middleware to clean user input from malicious HTML code (cross-site scripting)
 app.use(xss());
 
-// Middleware to clean http pullution
+// Middleware to clean http pollution
 app.use(
   hpp({
     whitelist: ["quantity", "expiryDate", "indication", "createdAt"],
