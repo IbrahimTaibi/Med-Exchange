@@ -1,5 +1,7 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const http = require("http");
+const socketIo = require("socket.io");
 
 // Load environment variables from .env file
 dotenv.config({ path: "./config.env" });
@@ -12,7 +14,7 @@ process.on("uncaughtException", (err) => {
   console.error("Shutting down due to uncaught exception...");
   process.exit(1);
 });
-//Adding MDB and chat
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_DB, {
@@ -27,9 +29,28 @@ mongoose
     process.exit(1);
   });
 
+// Create HTTP server
+const server = http.createServer(app);
+
+// Setup WebSocket with socket.io
+const io = socketIo(server);
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+
+  // Handle chat message event
+  socket.on("chat message", (msg) => {
+    io.emit("chat message", msg);
+  });
+});
+
 // Start the server
 const port = process.env.PORT || 3000;
-const server = app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
