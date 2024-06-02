@@ -12,7 +12,7 @@ process.on("uncaughtException", (err) => {
   console.error("Shutting down due to uncaught exception...");
   process.exit(1);
 });
-
+//Adding MDB and chat
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_DB, {
