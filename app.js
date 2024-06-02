@@ -14,6 +14,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const app = express();
 
+//Set Cors
 app.use(cors());
 // Set security-related HTTP headers
 app.use(helmet());
