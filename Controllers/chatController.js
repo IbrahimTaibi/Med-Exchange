@@ -1,10 +1,14 @@
-// chatController.js
-const ChatMessage = require("../Models/chatMessage");
+const mongoose = require("mongoose");
 const Chat = require("../Models/chatSchema");
-
 exports.getChatsForUser = async (req, res) => {
   try {
     const { userId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid user ID",
+      });
+    }
     const chats = await Chat.find({ users: userId })
       .populate("users", "username")
       .populate("latestMessage");
