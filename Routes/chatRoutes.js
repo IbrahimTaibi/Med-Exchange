@@ -30,4 +30,5 @@ router.post("/messages", async (req, res) => {
   }
 });
 
+router.get("/chats/:userId", chatController.getChatsForUser);
 module.exports = router;
