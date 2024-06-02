@@ -3,7 +3,7 @@ const router = express.Router();
 const ChatMessage = require("./models/ChatMessage");
 
 // Fetch chat messages between two users
-router.get("/messages/:sender/:receiver", async (req, res) => {
+router.get("/:sender/:receiver", async (req, res) => {
   const { sender, receiver } = req.params;
   try {
     const messages = await ChatMessage.find({
@@ -19,7 +19,7 @@ router.get("/messages/:sender/:receiver", async (req, res) => {
 });
 
 // Save a new chat message
-router.post("/messages", async (req, res) => {
+router.post("/", async (req, res) => {
   const { sender, receiver, message } = req.body;
   const newMessage = new ChatMessage({ sender, receiver, message });
   try {

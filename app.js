@@ -2,6 +2,7 @@ const express = require("express");
 const medicationRouter = require("./Routes/medicationRoutes");
 const authRouter = require("./Routes/authRoutes");
 const userRouter = require("./Routes/userRoutes");
+const chatRouter = require("./Routes/chatRoutes");
 const globalErrorHandler = require("./Controllers/errorController");
 const medicationController = require("./Controllers/medicationController");
 const rateLimiter = require("express-rate-limit");
@@ -60,7 +61,7 @@ app.use(
 app.use("/api/v2/medication", medicationRouter);
 app.use("/api/v2/auth", authRouter);
 app.use("/api/v2/user", userRouter);
-
+app.use("/api/v2/messages", chatRouter);
 // Handle undefined routes with a custom "Page Not Found" response
 app.all("*", medicationController.pageNotFound);
 
