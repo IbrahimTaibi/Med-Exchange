@@ -55,6 +55,21 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/chats/:userId", chatController.getChatsForUser);
+router.get("/chats/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  // Validate the user ID format
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ message: "Invalid user ID format" });
+  }
+
+  try {
+    const chats = await Chat.find({ users: userId }).populate("users").exec();
+    res.json({ chats });
+  } catch (error) {
+    console.error("Error fetching chats:", error);
+    res.status(500).json({ message: "Server error fetching chats" });
+  }
+});
 
 module.exports = router;
